@@ -4,13 +4,18 @@ Kinnect and Nao
 Autorzy: Kamil Mówiński, Patryk Bogdański
 
  Freekinect:
+
       $ sudo apt-get install freenect
       $ sudo modprobe -r gscpa_kinect
       $ sudo modprobe -r gspca_main
       $ echo "blacklist gspca_kinect" |sudo tee -a /etc/modprobe.d/blacklist.conf
+
 dodać użytkownika do grupy
+
       $ sudo adduser <nazwa_uzytkownika> plugdev
+      
 sprawdzenie działania
+
       $ freenect-glview
 
 Powinno wyświetlić się okienko z widokiem z kamery normalnej i z kamery głębi (czasami występują błędy ale nie wpływają na dalszą cześć, np. nie wyświetla się okno ale wykrywa urządzenia).
@@ -20,6 +25,7 @@ Jak nie znajduję urządzenia trzeba podłączyć go do innego portu USB (dział
 
 
 Środowisko ROS
+
        $ source /opt/ros/hydro/setup.bash
        $ mkdir -p ~/catkin_ws/src
        $ cd ~/catkin_ws/src
@@ -27,7 +33,6 @@ Jak nie znajduję urządzenia trzeba podłączyć go do innego portu USB (dział
        $ cd ~/catkin_ws/
        $ catkin_make
        $ source devel/setup.bash
-
        $ sudo apt-get install ros-hydro-openni-camera
        $ sudo apt-get install ros-hydro-openni-launch
        $ sudo apt-get install ros-hydro-openni-tracker
@@ -39,10 +44,12 @@ Pobrieramy plik i rozpakowujemy go
 NiTE v1.5.2.23
 
 następnie instalujemy jako administrator (w folderze gdzie rozpakowaliśmy NiTE):
+
         $ ./install.sh
 
 Podgląd 
 Będąc w środowisku catkin (source ~/catkin_ws/devel/setup.bash), wpisujemy każdą komendę w innym temrinalu
+
         $ roslaunch my_kinnect kinnect.launch
 
 Aby wyświetlić szkielet układy współrzędnych w rviz należy:
@@ -60,9 +67,11 @@ Maksymalnie można przechowywać dane o 3 użytkownikach (http://wiki.ros.org/op
 
 
 Skrypt który publikuje informację o przetworzeniu (głowa):
+
        $ rosrun my_kinnect tracker.py 
 
 Pozostałe części ciała
+
        $ rosrun my_kinnect tracker.py _target_joint:=/left_hand
 
 Naoqi SDK
