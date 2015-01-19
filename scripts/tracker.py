@@ -16,13 +16,20 @@ class Tracker():
         rate = rospy.get_param('~rate', 3)
 
         r = rospy.Rate(rate)
-        self.target_joint = "{0}_1".format(rospy.get_param('~target_joint', '/head'))
+
 
         self.tf = tf.TransformListener()
         rospy.loginfo("Start tracking for 5s...")
         rospy.sleep(5.0)
         rospy.loginfo("Tracking started!")
-	
+
+	for i in range(1, 4):	
+            try:
+                 self.target_joint = "{0}_{1}".format(rospy.get_param('~target_joint', '/head'), i)
+                 break
+            except:
+                 pass
+
         while not rospy.is_shutdown():
 	    trans, rot = self.tf.lookupTransform('/openni_depth_frame', self.target_joint, rospy.Duration())
             vec = Vector3(*trans)
