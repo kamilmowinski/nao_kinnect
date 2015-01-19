@@ -52,7 +52,7 @@ Będąc w środowisku catkin (source ~/catkin_ws/devel/setup.bash), wpisujemy ka
 
         $ roslaunch my_kinnect kinnect.launch
 
-Aby wyświetlić szkielet układy współrzędnych w rviz należy:
+Aby wyświetlić szkielet układy współrzędnych w rviz należy (lub wykorzystać plik coords.rviz):
 -Kliknąć przycisk "Add"
 -W okienku wybrać "TF" i zatwierdzic
 -W zakładce "Global Options" w polu "Fixed Frame" wpisac "openni_depth_frame" (lub wybrać jeśli jest)
