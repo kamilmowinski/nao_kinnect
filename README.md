@@ -71,3 +71,8 @@ Naoqi SDK
       export PYTHONPATH=${PYTHONPATH}:/path/to/python-sdk
 
 3. Restart shell.
+
+
+Move nao by ROS
+
+      rostopic pub -1 /nao my_kinnect/NaoCoords  '{header: auto, Part: ['Head'], Angles1: {data: 0}, Angles2: {data: 0}}'
