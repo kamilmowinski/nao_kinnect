@@ -33,7 +33,6 @@ class NaoMonkey:
 		self.motionProxy = ALProxy("ALMotion", ip, port)
 		
 		self.al.setState("disabled")
-		self.postureProxy.goToPosture("StandInit", 0.5)
 		for part in ["Head", "LArm", "RArm"]:
 			self.motionProxy.setStiffnesses(part, 1.0)
 		rospy.loginfo(self.motionProxy.getSummary())
