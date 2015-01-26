@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import rospy
+import math
 from naoqi import ALProxy
 from my_kinnect.msg import NaoCoords
 
@@ -24,7 +25,7 @@ class NaoMonkey:
 		rospy.init_node('nao_mykinect', anonymous=True)
 
 		self.listener = rospy.Subscriber('nao', NaoCoords, self.move)
-                ip = rospy.get_param('~ip', '10.104.16.9')
+                ip = rospy.get_param('~ip', '10.104.16.141')
 		port = int(rospy.get_param('~port', '9559'))
 
 		self.al = ALProxy("ALAutonomousLife", ip, port)
@@ -38,24 +39,24 @@ class NaoMonkey:
 		rospy.loginfo(self.motionProxy.getSummary())
 
 	def move(self, coords):
-		rospy.loginfo(coords)
-		part = coords.Part
-		angles = coords.Angles
+		part = coords.Part.data
+		angles1 = coords.Angles1
+		angles2 = coords.Angles2
+		angles = [float(angles1.data), float(angles2.data)]
 		speed = 1.0
 		if part not in NaoMonkey.PART:
 			error_msg = 'Wat? I Do not have ' + str(part)
-			self.tts.say(error_msg)
-			raise TypeError(error_msg)
+			rospy.loginfo(error_msg)
+			return
 		if len(NaoMonkey.PART[part]) != len(angles):
 			error_msg = 'Wat? What shall i do with rest joint?'
-			self.tts.say(error_msg)
-			raise TypeError(error_msg)
+			rospy.loginfo(error_msg)
+			return
 		angles = map(lambda x: float(x)*math.pi/180.0, angles)
 		for limit, angle in zip(NaoMonkey.LIMITS[part], angles):
 			if angle < limit[0] or angle > limit[1]:
 				error_msg = 'Wat? Limits man!'
-				self.tts.say(error_msg)
-				raise TypeError(error_msg)
+				rospy.loginfo(error_msg)
 		self.motionProxy.setAngles(NaoMonkey.PART[part], angles, speed);
 
 
