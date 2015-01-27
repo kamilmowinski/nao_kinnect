@@ -7,6 +7,9 @@ from my_kinnect.msg import SkeletonCoords, NaoCoords
 
 class Monkey():
 
+    CALIBRATION_LIMIT = 50
+    GAIN = 400
+
     def __init__(self):
 	self.calibration = True
 	self.vector = None
@@ -27,7 +30,7 @@ class Monkey():
 
     def move(self, coords):
 	if self.calibration:
-		if self.msg_count < 5:
+		if self.msg_count < Monkey.CALIBRATION_LIMIT:
 			self.msg_count += 1
 			if self.rot:
 				self.rot[0] += coords.rot.x
@@ -51,19 +54,19 @@ class Monkey():
 				self.vector.append(coords.trans.z) 
 		else:
 			self.calibration = False
-			self.vector[0] /= 5
-			self.vector[1] /= 5
-			self.vector[2] /= 5
-			self.rot[0] /= 5
-			self.rot[1] /= 5
-			self.rot[2] /= 5
-			self.rot[3] /= 5
+			self.vector[0] /= Monkey.CALIBRATION_LIMIT
+			self.vector[1] /= Monkey.CALIBRATION_LIMIT
+			self.vector[2] /= Monkey.CALIBRATION_LIMIT
+			self.rot[0] /= Monkey.CALIBRATION_LIMIT
+			self.rot[1] /= Monkey.CALIBRATION_LIMIT
+			self.rot[2] /= Monkey.CALIBRATION_LIMIT
+			self.rot[3] /= Monkey.CALIBRATION_LIMIT
 	else:
-		r = coords.rot.z - self.rot[3]
-		head = NaoCoords(Part=String("Head"), Angles1=Float32(100.0 * r),
+		r = coords.rot.z - self.rot[2]
+		head = NaoCoords(Part=String("Head"), Angles1=Float32(Monkey.GAIN * r),
 				 Angles2=Float32(0))
 		self.pub_trans.publish(head)
-		rospy.loginfo(head)
+		rospy.loginfo(Monkey.GAIN * r)
 		
 
 

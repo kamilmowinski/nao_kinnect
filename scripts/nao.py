@@ -38,7 +38,6 @@ class NaoMonkey:
 		rospy.loginfo(self.motionProxy.getSummary())
 
 	def move(self, coords):
-		rospy.loginfo(coords)
 		part = coords.Part.data
 		angles1 = coords.Angles1
 		angles2 = coords.Angles2
