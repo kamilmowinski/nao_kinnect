@@ -1,7 +1,7 @@
 # nao_kinnect
 Kinnect and Nao
 
-Autors: Kamil Mówiński, Patryk Bogdański
+Authors: Kamil Mówiński, Patryk Bogdański
 
  Freekinect:
 
